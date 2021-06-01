@@ -29,6 +29,18 @@ public class DataBConnection {
 		}
 		return connect;
 	}
+	
+	//method to disconnect from the database
+	public static void closeConnection() {
+		if(connect != null) {
+			try {
+				connect.close();
+			}
+			catch(SQLException e) {
+				throw new DataBException(e.getMessage());
+			}
+		}
+	}
 
 	// method to read properties
 	private static Properties loadDBProperties() {
