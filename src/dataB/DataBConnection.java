@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import dbExceptions.DataBException;
@@ -58,6 +60,32 @@ public class DataBConnection {
 			
 		} catch (IOException e) {
 			throw new DataBException(e.getMessage());
+		}
+	}
+	
+	// method to close the statement
+	public static void closeStatement(Statement statement) {
+		if(statement != null) {
+			try {
+				System.out.println("Statement closed!");
+				statement.close();
+			}
+			catch(SQLException e) {
+				throw new DataBException(e.getMessage());
+			}
+		}
+	}
+	
+	// method to close the resultSet
+	public static void closeResultSet(ResultSet resultSet) {
+		if(resultSet != null) {
+			try {
+				System.out.println("ResultSet closed!");
+				resultSet.close();
+			}
+			catch(SQLException e) {
+				throw new DataBException(e.getMessage());
+			}
 		}
 	}
 

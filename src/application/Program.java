@@ -39,6 +39,8 @@ public class Program {
 			e.printStackTrace();
 		}
 		finally {
+			DataBConnection.closeResultSet(resultSet);
+			DataBConnection.closeStatement(statement);
 			DataBConnection.closeConnection();
 		}
 
