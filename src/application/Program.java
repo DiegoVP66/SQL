@@ -1,11 +1,11 @@
 package application;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import dataB.DataBConnection;
-import dbExceptions.DataBIntegrityException;
+import dbExceptions.DataBException;
 
 public class Program {
 
@@ -13,28 +13,40 @@ public class Program {
 	
 		
 		Connection connect = null;
-		PreparedStatement statement = null;
+		Statement statement = null;
 		
 		
-		// deleting data
+		
 		try {
 			connect = DataBConnection.getConnection();
-			statement = connect.prepareStatement(
-					"DELETE FROM seller "
-					+"WHERE "
-					+"Id = ?");
 			
-			statement.setInt(1, 10);	
-                                          
-			int lines = statement.executeUpdate();
+			// protecting the transaction
+			connect.setAutoCommit(false);
+			
+			statement = connect.createStatement();
+				                              
+			int lines = statement.executeUpdate("UPDATE seller SET BaseSalary = 4000 WHERE Id = 1");
+			
+			
+			int lines1 = statement.executeUpdate("UPDATE seller SET BaseSalary = 6000 WHERE Id = 2");
 			
 			// showing how many lines were affected
 			System.out.println("UPDATED DATA, Lines affected: " +lines);
+			System.out.println("UPDATED DATA, Lines affected: " +lines1);
 			
+			// protecting the transaction
+			connect.commit();
 			
 		}
 		catch(SQLException e) {
-			throw new DataBIntegrityException(e.getMessage());
+			try {
+				// if the transaction fails
+				connect.rollback();
+				throw new DataBException("Transaction failed! Error: "+e.getMessage());
+			} catch (SQLException e1) {
+				
+				throw new DataBException("Error: "+e1.getMessage());
+			}
 		}
 		
 		finally {
