@@ -40,6 +40,7 @@ public class SellerDaoJDBC implements SellerDao {
 	}
 
 	@Override
+	// implementing the sql code in the findById method
 	public Seller findById(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
