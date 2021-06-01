@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import dataB.DataBConnection;
+import dbExceptions.DataBIntegrityException;
 
 public class Program {
 
@@ -15,17 +16,15 @@ public class Program {
 		PreparedStatement statement = null;
 		
 		
-		// updating database data
+		// deleting data
 		try {
 			connect = DataBConnection.getConnection();
 			statement = connect.prepareStatement(
-					"UPDATE seller "
-					+"SET Email = ? "
+					"DELETE FROM seller "
 					+"WHERE "
-					+"(Id = ?)");
+					+"Id = ?");
 			
-			statement.setString(1, "lucas@gmail.com");
-			statement.setInt(2, 2);	
+			statement.setInt(1, 10);	
                                           
 			int lines = statement.executeUpdate();
 			
@@ -35,7 +34,7 @@ public class Program {
 			
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			throw new DataBIntegrityException(e.getMessage());
 		}
 		
 		finally {
