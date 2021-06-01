@@ -1,9 +1,12 @@
 package application;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import dataB.DataBConnection;
 
@@ -11,26 +14,42 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Connection connect = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
+		PreparedStatement statement = null;
 		
-		// Retrieving data from the database
+		
+		// inserting data into the database
 		try {
 			connect = DataBConnection.getConnection();
+			statement = connect.prepareStatement(
+					"INSERT INTO seller "
+					+"(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+"VALUES "
+					+"(?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
 			
-			statement = connect.createStatement();
-                                             
-			resultSet = statement.executeQuery("select * from seller");
+			statement.setString(1, "Diego Vicente Pereira");
+			statement.setString(2, "vp.diego28@gmail.com");
+			statement.setDate(3, new java.sql.Date(sdf.parse("17/06/1988").getTime()));
+			statement.setDouble(4, 5000.00);
+			statement.setInt(5, 2);
 			
-			while(resultSet.next()) {
-				
-				System.out.println(resultSet.getInt("Id")+ " - "
-						+ resultSet.getString("Name")
-						+", "
-						+resultSet.getString("Email"));
+			int lines = statement.executeUpdate();
+			
+			// showing the created key
+			if(lines > 0) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				while(resultSet.next()) {
+					int id = resultSet.getInt(1);
+					System.out.println("Id created: "+id);
+				}
 			}
+			else {
+				System.out.println("Nothing changed!");
+			}
+			
+                                          
 			
 			
 			
@@ -38,8 +57,11 @@ public class Program {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		catch(ParseException e) {
+			e.printStackTrace();
+		}
 		finally {
-			DataBConnection.closeResultSet(resultSet);
+			
 			DataBConnection.closeStatement(statement);
 			DataBConnection.closeConnection();
 		}
