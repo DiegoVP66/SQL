@@ -25,7 +25,7 @@ public class DataBConnection {
 
 				connect = DriverManager.getConnection(url, properties);
 				
-				System.out.println("connected");
+				
 				
 			} catch (SQLException e) {
 				throw new DataBException(e.getMessage());
@@ -38,7 +38,7 @@ public class DataBConnection {
 	public static void closeConnection() {
 		if(connect != null) {
 			try {
-				System.out.println("disconnected");
+				
 				connect.close();
 			}
 			catch(SQLException e) {
@@ -67,7 +67,7 @@ public class DataBConnection {
 	public static void closeStatement(Statement statement) {
 		if(statement != null) {
 			try {
-				System.out.println("Statement closed!");
+				
 				statement.close();
 			}
 			catch(SQLException e) {
@@ -80,7 +80,7 @@ public class DataBConnection {
 	public static void closeResultSet(ResultSet resultSet) {
 		if(resultSet != null) {
 			try {
-				System.out.println("ResultSet closed!");
+				
 				resultSet.close();
 			}
 			catch(SQLException e) {
