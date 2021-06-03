@@ -1,7 +1,12 @@
 package application;
 
+
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 
 import dataB.DataBConnection;
 import model.dao.GenerateDao;
@@ -12,7 +17,9 @@ import model.entities.Seller;
 public class Program {
 
 	public static void main(String[] args) throws ParseException {
-
+		Locale.setDefault(Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Scanner sc =  new Scanner(System.in);
 		SellerDao sellerDao = GenerateDao.generateSellerDao();
 
 		// testing findById method on main class
@@ -40,7 +47,25 @@ public class Program {
 			System.out.println(y);
 		}
 		
+		System.out.println();
+		
+		// testing insert
+		System.out.print("Name: ");
+		String name = sc.nextLine();
+		System.out.print("Email: ");
+		String email = sc.nextLine();
+		System.out.print("Birth date: ");
+		Date date = sdf.parse(sc.next());
+		System.out.print("Base salary: ");
+		Double salary = sc.nextDouble();
+		
+		seller = new Seller(null,name, email, date, salary, dep);
+		sellerDao.insert(seller);
+		
+		System.out.println("id: "+seller.getId());
+		
 		DataBConnection.closeConnection();
+		sc.close();
 
 	}
 
