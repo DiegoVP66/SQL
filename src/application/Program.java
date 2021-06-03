@@ -50,7 +50,7 @@ public class Program {
 		System.out.println();
 		
 		// testing insert
-		System.out.print("Name: ");
+		/*System.out.print("Name: ");
 		String name = sc.nextLine();
 		System.out.print("Email: ");
 		String email = sc.nextLine();
@@ -62,7 +62,13 @@ public class Program {
 		seller = new Seller(null,name, email, date, salary, dep);
 		sellerDao.insert(seller);
 		
-		System.out.println("id: "+seller.getId());
+		System.out.println("id: "+seller.getId());*/
+		
+		// testing update
+		seller =  sellerDao.findById(6);
+		seller.setBaseSalary(4000.00);
+		sellerDao.update(seller);
+		System.out.println(seller);
 		
 		DataBConnection.closeConnection();
 		sc.close();
