@@ -33,6 +33,13 @@ public class Program {
 			System.out.println(x);
 		}
 		
+		// testing findAll
+		list = sellerDao.findAll();
+		System.out.println("FindAll");
+		for(Seller y : list) {
+			System.out.println(y);
+		}
+		
 		DataBConnection.closeConnection();
 
 	}
