@@ -65,10 +65,11 @@ public class Program {
 		System.out.println("id: "+seller.getId());*/
 		
 		// testing update
-		seller =  sellerDao.findById(6);
-		seller.setBaseSalary(4000.00);
-		sellerDao.update(seller);
-		System.out.println(seller);
+		//seller =  sellerDao.findById(16);
+		//seller.setBaseSalary(4000.00);
+		//sellerDao.update(seller);
+		sellerDao.deleteById(17);
+		
 		
 		DataBConnection.closeConnection();
 		sc.close();
