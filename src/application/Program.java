@@ -2,7 +2,6 @@ package application;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Stream;
 
 import dataB.DataBConnection;
 import model.dao.GenerateDao;
@@ -25,7 +24,7 @@ public class Program {
 		
 		// testing findByDepartment method on main class
 		Department dep = new Department(1, null);
-		List<Seller> list = sellerDao.findByDepertment(dep);
+		List<Seller> list = sellerDao.findByDepartment(dep);
 		System.out.println("findByDepartment");
 		
 		//Stream.of(list).forEach(System.out::println);
